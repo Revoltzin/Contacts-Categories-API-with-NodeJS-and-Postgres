@@ -30,6 +30,28 @@ class ContactRepository {
             resolve(contact)
         })
     }
+
+    findByEmail (email) {
+        return new Promise((resolve) => {
+            const contact = contacts.find((contacts) => contacts.email === email)
+            resolve(contact)
+        })
+    }
+
+    create ({ name, phone, email, category_id }) {
+        return new Promise((resolve) => {
+            const createNewContact = {
+                id: uuid(),
+                name,
+                phone,
+                email,
+                category_id: uuid(),
+            }
+
+            contacts.push(createNewContact)
+            resolve(createNewContact)
+        })
+    }
 }
 
 module.exports = new ContactRepository()
