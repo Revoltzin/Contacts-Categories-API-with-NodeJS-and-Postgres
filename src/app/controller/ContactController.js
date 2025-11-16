@@ -41,7 +41,15 @@ class ContactController {
         res.json(contact)
     }
 
-    update() {}
+    update(req, res) {
+        const { name, phone, email, category_id } = req.body
+
+        if (!name) {
+        return res.status(404).json({ error: "Name is required"})
+        }
+
+        
+    }
 
     delete () {}
 }
