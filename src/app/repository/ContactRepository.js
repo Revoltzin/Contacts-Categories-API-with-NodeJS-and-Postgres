@@ -52,6 +52,22 @@ class ContactRepository {
             resolve(createNewContact)
         })
     }
+
+    update (id, { name, phone, email, category_id}) {
+        return new Promise((resolve) => {
+            const updatedContact = {
+                id: uuid(),
+                name,
+                phone,
+                email,
+                category_id,
+            }
+
+            contacts = contacts.map((contact) => contact.id === id ? updatedContact : contact)
+
+            resolve(updatedContact)
+        })
+    }
 }
 
 module.exports = new ContactRepository()
