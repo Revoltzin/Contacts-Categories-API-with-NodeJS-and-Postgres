@@ -68,6 +68,13 @@ class ContactRepository {
             resolve(updatedContact)
         })
     }
+
+    delete (id) {
+        return new Promise((resolve) => {
+            contacts = contacts.filter((contact) => contact.id !== id)
+            resolve()
+        })
+    }
 }
 
 module.exports = new ContactRepository()

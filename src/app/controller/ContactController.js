@@ -45,7 +45,7 @@ class ContactController {
         const { id } = req.params
         const { name, phone, email, category_id } = req.body
 
-        const contactExists = await ContactRepository.findById()
+        const contactExists = await ContactRepository.findById(id)
 
         if (!contactExists) {
         return res.status(404).json({ error: "User not found"})
@@ -71,7 +71,18 @@ class ContactController {
         res.json(contact)
     }
 
-    delete () {}
+    async delete (req, res) {
+        const { id } = req.params
+
+        const contact = await ContactRepository.findById(id)
+
+        if (!contact) {
+            return res.status(404).json({ error: "User not found" })
+        }
+
+        await ContactRepository.delete(id)
+        res.sendStatus(204)
+    }
 }
 
 module.exports = new ContactController()
