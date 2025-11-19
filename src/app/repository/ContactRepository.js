@@ -53,11 +53,9 @@ class ContactRepository {
         })
     }
 
-    delete (id) {
-        return new Promise((resolve) => {
-            contacts = contacts.filter((contact) => contact.id !== id)
-            resolve()
-        })
+    async delete (id) {
+        const deletOp = await db.query('DELETE FROM contacts WHERE id = $1', [id])
+        return deletOp
     }
 }
 
