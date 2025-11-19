@@ -31,20 +31,15 @@ class ContactRepository {
         return row
     }
 
-    update (id, { name, phone, email, category_id}) {
-        return new Promise((resolve) => {
-            const updatedContact = {
-                id: uuid(),
-                name,
-                phone,
-                email,
-                category_id,
-            }
-
-            contacts = contacts.map((contact) => contact.id === id ? updatedContact : contact)
-
-            resolve(updatedContact)
-        })
+    async update (id, { name, phone, email, category_id}) {
+        const [row] = await db.query(`
+            UPDATE contacts
+            SET name = $1, phone = $2, email = $3, category_id = $4
+            WHERE id = $5
+            RETURNING *            
+            `, [name, phone, email, category_id])
+        
+        return row
     }
 
     async delete (id) {
