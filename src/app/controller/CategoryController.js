@@ -1,4 +1,4 @@
-const CategoriesRepository = require("../repository/CategoryRepository.js")
+const CategoriesRepository = require("../repository/CategoriesRepository.js")
 
 class CategoryController {
     async index (req, res) {
