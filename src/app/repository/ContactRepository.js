@@ -17,11 +17,9 @@ class ContactRepository {
         return rows
     }
 
-    findByEmail (email) {
-        return new Promise((resolve) => {
-            const contact = contacts.find((contacts) => contacts.email === email)
-            resolve(contact)
-        })
+   async findByEmail (email) {
+        const row = await db.query('SELECT * FROM contacts WHERE email = $1', [email])
+        return row
     }
 
     create ({ name, phone, email, category_id }) {
