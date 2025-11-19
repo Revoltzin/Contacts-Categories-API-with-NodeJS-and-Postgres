@@ -22,19 +22,13 @@ class ContactRepository {
         return row
     }
 
-    create ({ name, phone, email, category_id }) {
-        return new Promise((resolve) => {
-            const createNewContact = {
-                id: uuid(),
-                name,
-                phone,
-                email,
-                category_id: uuid(),
-            }
-
-            contacts.push(createNewContact)
-            resolve(createNewContact)
-        })
+    async create ({ name, phone, email, category_id }) {
+        const [row] = await db.query(`INSERT INTO contacts(name, phone, email, category_id)
+            VALUES($1, $2, $3, $4)
+            RETURNING *
+            `, [name, phone, email, category_id])
+        
+        return row
     }
 
     update (id, { name, phone, email, category_id}) {
