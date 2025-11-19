@@ -1,27 +1,15 @@
-const { uuid } = require("uuidv4")
-
-let contacts = [
-    {
-        id: uuid(),
-        name: "Matheus",
-        phone: "424124",
-        email: "matheus@mail.com",
-        category_id: uuid(),
-    },
-    {
-        id: uuid(),
-        name: "Carlos",
-        phone: "934843",
-        email: "carlos@email.com",
-        category_id: uuid(),    
-    },
-]
+const db = require("../../database/index.js")
 
 class ContactRepository {
-    findAll() {
-        return new Promise((resolve) => {
-            resolve(contacts)
-        })
+   async findAll(orderBy = 'ASC') {
+        const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC'
+        const rows = await db.query(`
+            SELECT contacts.*, categories.name AS category_name
+            FROM contacts
+            LEFT JOIN categories ON categories.id = contacts.category_id
+            ORDER BY contacts.name ${direction}
+            `)
+        return rows
     }
 
     findById (id) {
